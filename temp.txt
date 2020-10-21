@@ -1,0 +1,50 @@
+contents
+Next: Checking with netstat Up: Configuring TCP/IP Networking Previous: The Dummy Interface
+All About ifconfig
+There are a lot more parameters to ifconfig than we have described above. Its normal invocation is this:
+           ifconfig interface [[-net|-host] address [parameters]]
+interface is the interface name, and address is the IP-address to be assigned to the interface. This may either be an IP-address in dotted quad notation, or a name ifconfig will look up in /etc/hosts and /etc/networks. The -net and -host options force ifconfig to treat the address as network number or host address, respectively.
+If ifconfig is invoked with only the interface name, it displays that interface's configuration. When invoked without any parameters, it displays all interfaces you configured so far; an option of -a forces it to show the inactive ones as well. A sample invocation for the Ethernet interface eth0 may look like this:
+
+           # ifconfig eth0
+           eth0      Link encap 10Mbps Ethernet  HWaddr 00:00:C0:90:B3:42
+                     inet addr 191.72.1.2 Bcast 191.72.1.255 Mask 255.255.255.0
+                     UP BROADCAST RUNNING  MTU 1500  Metric 0
+                     RX packets 3136 errors 217 dropped 7 overrun 26
+                     TX packets 1752 errors 25 dropped 0 overrun 0
+The MTU and Metric fields show the current MTU and metric value for that interface. The metric value is traditionally used by some operating systems to compute the cost of a route. doesn't use this value yet, but defines it for compatibility nevertheless.
+The RX and TX lines show how many packets have been received or transmitted error free, how many errors occurred, how many packets were dropped, probably because of low memory, and how many were lost because of an overrun. Receiver overruns usually happen when packets come in faster than the kernel can service the last interrupt. The flag values printed by ifconfig correspond more or less to the names of its command line options; they will be explained below.
+
+The following is a list of parameters recognized by ifconfig with the corresponding flag names are given in brackets. Options that simply turn on a feature also allow it to be turned off again by preceding the option name by a dash (-).
+
+up
+This marks an interface ``up'', i.e. accessible to the IP layer. This option is implied when an address is given on the command line. It may also be used to re-enable an interface that has been taken down temporarily using the down option. (This option corresponds to the flags UP RUNNING.)
+down
+This marks an interface ``down'', i.e. inaccessible to the IP layer. This effectively disables any IP traffic through the interface. Note that this does not delete all routing entries that use this interface automatically. If you take the inter- face down permanently, you should to delete these routing entries and supply alternative routes if possible.
+netmask mask
+This assigns a subnet mask to be used by the interface. It may be given as either a 32-bit hexadecimal number preceded by 0x, or as a dotted quad of decimal numbers. that involve only two hosts. This option is needed to config- ure, for example, SLIP or PLIP interfaces.
+pointopoint
+address This option is used for point-to-point IP links that involve only two hosts. This option is needed to config- ure, for example, SLIP or PLIP interfaces. (If a point-to-point address has been set, ifconfig displays the POINTO- POINT flag.)
+broadcast address
+The broadcast address is usually made up from the network number by setting all bits of the host part. Some IP implementations use a different scheme; this option is there to adapt to these strange environments. (If a broadcast address has been set, ifconfig displays the BROADCAST flag.)
+metric number
+This option may be used to assign a metric value to the routing table entry created for the interface. This metric is used by the Routing Information Protocol (RIP) to build rout- ing tables for the network.(8) The default metric used by ifconfig is a value of zero. If you don't run a RIP daemon, you don't need this option at all; if you do, you will rarely need to change the metric value.
+mtu bytes
+This sets the Maximum Transmission Unit, which is the maximum number of octets the interface is able to handle in one trans- action. For Ethernets, the MTU defaults to 1500; for SLIP interfaces, this is 296.
+arp
+This is an option specific to broadcast networks such as Eth- ernets or packet radio. It enables the use of ARP, the Address Resolution Protocol, to detect the physical addresses of hosts attached to the network. For broadcast networks, is on by default.
+-arp
+Disables the use of ARP on this interface.
+promisc
+Puts the interface in promiscuous mode. On a broadcast net- work, this makes the interface receive all packets, regardless of whether they were destined for another host or not. This allows an analysis of network traffic using packet filters and such, also called Ethernet snooping. Usually, this is a good technique of hunting down network problems that are otherwise hard to come by. On the other hand, this allows attackers to skim the traffic of your network for passwords and do other nasty things. One protection against this type of attack is not to let anyone just plug in their computers in your Ethernet. Another option is to use secure authentication protocols, such as Kerberos, or the SRA login suite.(9) (This option corresponds to the flag PROMISC.)
+-promisc
+Turns off promiscuous mode.
+allmulti
+Multicast addresses are some sort of broadcast to a group of hosts who don't necessarily have to be on the same subnet. Multicast addresses are not yet supported by the kernel. (This option corresponds to the flag ALLMULTI.)
+-allmulti
+Turns off multicast addresses.
+
+contents
+Next: Checking with netstat Up: Configuring TCP/IP Networking Previous: The Dummy Interface
+Andrew Anderson
+Thu Mar 7 23:22:06 EST 1996
