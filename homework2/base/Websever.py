@@ -26,7 +26,7 @@ while True:
         # Set up a new connection from the client
         connectionSocket, addr = serverSocket.accept()
 
-	# If an exception occurs during the execution of try clause
+        # If an exception occurs during the execution of try clause
         # the rest of the clause is skipped
         # If the exception type matches the word after except
         # the except clause is executed
@@ -40,15 +40,15 @@ while True:
                 filename = message.split()[1]
                 print(filename)
 
-	        # Because the extracted path of the HTTP request includes 
-	        # a character '\', we read the path from the second character
+                # Because the extracted path of the HTTP request includes
+                # a character '\', we read the path from the second character
                 myfile = open(filename[1:],'rb')
 
-	        # Store the entire contenet of the requested file in a temporary buffer
+                # Store the entire contenet of the requested file in a temporary buffer
                 response = myfile.read()
                 myfile.close()
-		
-		# Send the HTTP response header line to the connection socket
+
+                # Send the HTTP response header line to the connection socket
                 header = 'HTTP/1.1 200 OK\n'
 
                 if(filename.endswith(".jpg")):

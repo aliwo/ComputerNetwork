@@ -8,8 +8,8 @@ serverSocket.listen(1)
 print('The server is ready to receive')
 while True:
      connectionSocket, addr = serverSocket.accept()
-     
      sentence = connectionSocket.recv(1024).decode()
+     print(f'server received: {sentence}')
      capitalizedSentence = sentence.upper()
      connectionSocket.send(capitalizedSentence.encode())
      connectionSocket.close()
