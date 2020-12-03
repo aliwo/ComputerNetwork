@@ -2,7 +2,7 @@ from socket import *
 from time import process_time
 
 
-SERVER_NAME = 'localhost'
+SERVER_NAME = '34.64.229.213'
 SERVER_PORT = 12000
 MESSAGE = 'PING'
 
@@ -13,6 +13,7 @@ def ping(shot):
         start = process_time()
         try:
             clientSocket.sendto(MESSAGE.encode(), (SERVER_NAME, SERVER_PORT))
+            clientSocket.settimeout(1)
             modifiedMessage, serverAddress = clientSocket.recvfrom(2048)
         except timeout: # socket.timeout
             print(i)
@@ -24,7 +25,7 @@ def ping(shot):
 
 
 if __name__ == '__main__':
-    ping(10)
+    # ping(10)
     ping(1000)
 
 

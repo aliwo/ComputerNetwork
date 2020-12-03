@@ -1,4 +1,4 @@
-
+from random import randint
 from socket import *
 
 serverPort = 12000
@@ -11,5 +11,8 @@ while True:
      sentence = connectionSocket.recv(1024).decode()
      print(f'server received: {sentence}')
      capitalizedSentence = sentence.upper()
-     connectionSocket.send(capitalizedSentence.encode())
+     if randint(1, 10) > 4:
+          connectionSocket.send(capitalizedSentence.encode())
+     else:
+          print('lost')
      connectionSocket.close()

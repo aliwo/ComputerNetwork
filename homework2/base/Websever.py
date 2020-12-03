@@ -9,7 +9,7 @@ import sys # In order to terminate the program
 serverSocket = socket(AF_INET, SOCK_STREAM)
 
 # Assign a port number
-serverPort = 6789
+serverPort = 6791
 
 
 # Bind the socket to server address and server port
@@ -30,7 +30,10 @@ while True:
         # the rest of the clause is skipped
         # If the exception type matches the word after except
         # the except clause is executed
-        try: 
+        host, _ = connectionSocket.getpeername()
+        print(host)
+
+        try:
                 # Receives the request message from the client
                 message = connectionSocket.recv(2048).decode()
                 print(message)
